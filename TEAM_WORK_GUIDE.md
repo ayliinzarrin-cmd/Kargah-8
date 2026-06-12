@@ -66,3 +66,5 @@ Member 1 updated the README file and added final project notes.
 Member 2 updated the team workflow guide and reviewed the repository structure.
 
 Each pull request was reviewed and approved by the other member before being merged into the main branch.
+
+The initial project files were uploaded and then the final documentation updates were completed through reviewed pull requests.
