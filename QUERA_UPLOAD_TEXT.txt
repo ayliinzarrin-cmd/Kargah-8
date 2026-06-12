@@ -1,0 +1,20 @@
+Repository link:
+https://github.com/ayliinzarrin-cmd/Kargah-8
+
+Member 1:
+Full name: FULL_NAME_1
+Student ID: STUDENT_ID_1
+GitHub username: GITHUB_USERNAME_1
+
+Member 2:
+Full name: FULL_NAME_2
+Student ID: STUDENT_ID_2
+GitHub username: GITHUB_USERNAME_2
+
+Project workflow:
+The project was developed using separate feature branches. Each member implemented features across multiple layers of the project. Pull requests were created for the feature branches, reviewed by the other member, approved, and then merged into the main branch.
+
+Branches:
+- feature/book-metadata
+- feature/book-reader-editor
+- feature/final-cleanup
