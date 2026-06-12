@@ -6,7 +6,7 @@ Repository link:
 https://github.com/ayliinzarrin-cmd/Kargah-8
 ```
 
-## Suggested Branches
+## Project Branches and Task Plan
 
 ### Member 1
 
