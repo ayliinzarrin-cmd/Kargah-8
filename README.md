@@ -47,6 +47,25 @@ java -cp out library.Main
 
 ## Team Members
 
-Member 1: `FULL_NAME_1` - `STUDENT_ID_1` - `GITHUB_USERNAME_1`
+Member 1:
+- Full name: آیلین زرین بخش
+- Student ID: 40413418
+- GitHub username: ayliinzarrin
 
-Member 2: `FULL_NAME_2` - `STUDENT_ID_2` - `GITHUB_USERNAME_2`
+Member 2:
+- Full name: نورالدین امینی
+- Student ID: 40312010
+- GitHub username: amininoorodin1384
+  
+## Final Project Notes
+
+This project was implemented as a personal library management system using Java, Swing, file handling, and object-oriented programming.
+
+The application includes:
+- Book metadata management
+- Reading book text files
+- Editing and saving book content
+- CSV-based book list storage
+- A simple Swing graphical user interface
+
+The final version was reviewed and prepared for Quera submission.
