@@ -56,3 +56,13 @@ git commit -m "Add book reader and editor"
 
 Each member should create a pull request from their own branch to `main`.
 The other member should review, approve, and merge the pull request.
+
+## Team Workflow Update
+
+The team used GitHub branches and pull requests to manage the final project updates.
+
+Member 1 updated the README file and added final project notes.
+
+Member 2 updated the team workflow guide and reviewed the repository structure.
+
+Each pull request was reviewed and approved by the other member before being merged into the main branch.
