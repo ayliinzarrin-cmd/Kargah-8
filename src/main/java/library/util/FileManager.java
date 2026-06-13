@@ -97,38 +97,41 @@ public class FileManager {
 
     public static List<String> readBookPages(String filePath, int linesPerPage) {
         List<String> pages = new ArrayList<>();
-
-        if (linesPerPage <= 0) {
-            linesPerPage = 25;
-        }
-
         File file = new File(filePath);
 
         if (!file.exists()) {
-            pages.add("Book file not found:\n" + filePath);
+            pages.add("There is no text file: " + filePath);
             return pages;
         }
 
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            StringBuilder pageBuilder = new StringBuilder();
+            int nonEmptyLineCount = 0;
 
-            StringBuilder page = new StringBuilder();
             String line;
-            int lineCounter = 0;
+            while ((line = br.readLine()) != null) {
+                pageBuilder.append(line).append("\n");
 
-            while ((line = reader.readLine()) != null) {
-                page.append(line).append(System.lineSeparator());
-                lineCounter++;
+                if (!line.trim().isEmpty()) {
+                    nonEmptyLineCount++;
+                }
 
-                if (lineCounter == linesPerPage) {
-                    pages.add(page.toString());
-                    page.setLength(0);
-                    lineCounter = 0;
+                if (nonEmptyLineCount == linesPerPage) {
+                    String pageContent = pageBuilder.toString();
+                    pageContent = pageContent.replaceAll("^\\n+", "");
+                    pageContent = pageContent.replaceAll("\\n+$", "");
+                    pages.add(pageContent);
+
+                    pageBuilder.setLength(0);
+                    nonEmptyLineCount = 0;
                 }
             }
 
-            if (page.length() > 0) {
-                pages.add(page.toString());
+            if (pageBuilder.length() > 0) {
+                String pageContent = pageBuilder.toString();
+                pageContent = pageContent.replaceAll("^\\n+", "");
+                pageContent = pageContent.replaceAll("\\n+$", "");
+                pages.add(pageContent);
             }
 
             if (pages.isEmpty()) {
@@ -137,33 +140,44 @@ public class FileManager {
 
         } catch (IOException e) {
             pages.clear();
-            pages.add("Error while reading file:\n" + e.getMessage());
+            pages.add("Error reading file: " + e.getMessage());
         }
 
         return pages;
     }
 
     public static int countLines(String filePath) {
-        File file = new File(filePath);
+        return countLines(filePath, 59);
+    }
 
+    public static int countLines(String filePath, int maxCharsPerLine) {
+        File file = new File(filePath);
         if (!file.exists()) {
             return 0;
         }
 
-        int count = 0;
+        int totalLines = 0;
 
         try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
 
-            while (reader.readLine() != null) {
-                count++;
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue;
+                }
+
+                int charCount = line.length();
+                int linesForThisLine = (int) Math.ceil((double) charCount / maxCharsPerLine);
+                totalLines += linesForThisLine;
             }
 
         } catch (IOException e) {
             System.out.println("Could not count lines: " + e.getMessage());
+            return 0;
         }
 
-        return count;
+        return totalLines;
     }
 
     public static void writeBookText(String filePath, String content) throws IOException {
@@ -298,4 +312,4 @@ public class FileManager {
         result.add(current.toString());
         return result;
     }
-                  }
+}

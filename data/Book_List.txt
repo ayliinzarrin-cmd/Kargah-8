@@ -1,5 +1,5 @@
-Title,Author,Publisher,Publication Year,Path
-1984,George Orwell,Secker and Warburg,1949,1984.txt
-Animal Farm,George Orwell,Secker and Warburg,1945,Animal_Farm.txt
-The Great Gatsby,F. Scott Fitzgerald,Charles Scribner's Sons,1925,The_Great_Gatsby.txt
-To Kill a Mockingbird,Harper Lee,J. B. Lippincott and Co.,1960,To_Kill_a_Mockingbird.txt
+title,author,publisher,year,file
+1984,George Orwell,Secker and Warburg,1949,data/books_text/1984.txt
+Animal Farm,George Orwell,Secker and Warburg,1945,data/books_text/Animal_Farm.txt
+The Great Gatsby,F. Scott Fitzgerald,Charles Scribner's Sons,1925,data/books_text/The_Great_Gatsby.txt
+To Kill a Mockingbird,Harper Lee,J. B. Lippincott and Co.,1960,data/books_text/To_Kill_a_Mockingbird.txt

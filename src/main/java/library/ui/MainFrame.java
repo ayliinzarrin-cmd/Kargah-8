@@ -15,19 +15,14 @@ public class MainFrame extends JFrame {
     private JPanel booksPanel;
     private JPanel menuPanel;
     private JPanel readerPanel;
-
     private Book selectedBook;
-
     private JTextField titleField;
     private JTextField authorField;
     private JTextField publisherField;
     private JTextField yearField;
-
     private JTextArea pageArea;
-
     private List<String> pages;
     private int currentPage;
-
     private JLabel pageLabel;
 
     public MainFrame() {
@@ -205,7 +200,7 @@ public class MainFrame extends JFrame {
             return;
         }
 
-        pages = service.getBookPages(selectedBook, 25);
+        pages = service.getBookPages(selectedBook, 1);
         currentPage = 0;
 
         readerPanel = new JPanel(new BorderLayout(10, 10));
@@ -215,7 +210,7 @@ public class MainFrame extends JFrame {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
 
         pageArea = new JTextArea();
-        pageArea.setFont(new Font("Serif", Font.PLAIN, 16));
+        pageArea.setFont(new Font("Serif", Font.PLAIN, 38));
         pageArea.setEditable(editable);
         pageArea.setLineWrap(true);
         pageArea.setWrapStyleWord(true);
