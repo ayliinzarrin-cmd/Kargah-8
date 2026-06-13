@@ -24,6 +24,9 @@ public class MainFrame extends JFrame {
     private List<String> pages;
     private int currentPage;
     private JLabel pageLabel;
+    private JTextField searchField;
+    private JPanel listPanel;
+    private List<Book> allBooks;
 
     public MainFrame() {
         service = new LibraryService();
@@ -46,41 +49,46 @@ public class MainFrame extends JFrame {
         JLabel header = new JLabel("Personal Library", SwingConstants.CENTER);
         header.setFont(new Font("Arial", Font.BOLD, 24));
 
-        JPanel listPanel = new JPanel();
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        searchPanel.add(new JLabel("Search:"));
+
+        searchField = new JTextField(20);
+        searchField.setFont(new Font("Arial", Font.PLAIN, 14));
+        searchField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                filterBooks();
+            }
+        });
+        searchPanel.add(searchField);
+
+        JButton clearButton = new JButton("Clear");
+        clearButton.addActionListener(e -> {
+            searchField.setText("");
+            filterBooks();
+        });
+        searchPanel.add(clearButton);
+
+        listPanel = new JPanel();
         listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 
-        List<Book> books = service.getAllBooks();
-
-        if (books.isEmpty()) {
-            JLabel emptyLabel = new JLabel("No books found. Check data/Book_List.txt");
-            emptyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            listPanel.add(emptyLabel);
-        } else {
-            for (Book book : books) {
-                JButton button = new JButton(book.toString());
-                button.setAlignmentX(Component.CENTER_ALIGNMENT);
-                button.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
-
-                button.addActionListener(e -> {
-                    selectedBook = book;
-                    showBookMenu();
-                });
-
-                listPanel.add(button);
-                listPanel.add(Box.createVerticalStrut(8));
-            }
-        }
+        allBooks = service.getAllBooks();
+        displayBooks(allBooks);
 
         JButton refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(e -> {
             service = new LibraryService();
-            createBooksPanel();
-        });
+            allBooks = service.getAllBooks();
+            displayBooks(allBooks);
+            searchField.setText(""); });
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomPanel.add(refreshButton);
 
-        booksPanel.add(header, BorderLayout.NORTH);
+        JPanel northPanel = new JPanel(new BorderLayout());
+        northPanel.add(header, BorderLayout.NORTH);
+        northPanel.add(searchPanel, BorderLayout.CENTER);
+
+        booksPanel.add(northPanel, BorderLayout.NORTH);
         booksPanel.add(new JScrollPane(listPanel), BorderLayout.CENTER);
         booksPanel.add(bottomPanel, BorderLayout.SOUTH);
 
@@ -333,5 +341,52 @@ public class MainFrame extends JFrame {
     private void updatePageLabel() {
         int totalPages = pages == null ? 0 : pages.size();
         pageLabel.setText("Page " + (currentPage + 1) + " of " + totalPages);
+    }
+
+    private void displayBooks(List<Book> books) {
+        listPanel.removeAll();
+
+        if (books.isEmpty()) {
+            JLabel emptyLabel = new JLabel( searchField.getText().isEmpty() ?
+                    "No books found. Check data/Book_List.txt" :
+                    "No matching books found.");
+            emptyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            listPanel.add(emptyLabel);
+        } else {
+            for (Book book : books) {
+                JButton button = new JButton(book.toString());
+                button.setAlignmentX(Component.CENTER_ALIGNMENT);
+                button.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
+
+                button.addActionListener(e -> {
+                    selectedBook = book;
+                    showBookMenu();
+                });
+
+                listPanel.add(button);
+                listPanel.add(Box.createVerticalStrut(8));
+            }
+        }
+
+        listPanel.revalidate();
+        listPanel.repaint();
+    }
+
+    private void filterBooks() {
+        String searchText = searchField.getText().trim().toLowerCase();
+
+        if (searchText.isEmpty()) {
+            displayBooks(allBooks);
+            return;
+        }
+
+        List<Book> filtered = new ArrayList<>();
+        for (Book book : allBooks) {
+            if (book.getTitle().toLowerCase().contains(searchText)) {
+                filtered.add(book);
+            }
+        }
+
+        displayBooks(filtered);
     }
 }
